@@ -3,10 +3,12 @@
 
 #include <FastLED.h>
 
+FASTLED_USING_NAMESPACE
+
 class ChristmasFlash
 {
 public:
-    ChristmasFlash(CRGB*, int);
+    ChristmasFlash(CRGB*, int, int);
     ~ChristmasFlash();
 
     void start();
@@ -22,4 +24,6 @@ private:
     int m_inAction;
     int m_brightness;
     bool m_fading;
-}
+};
+
+#endif

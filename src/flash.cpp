@@ -1,6 +1,6 @@
 #include "flash.h"
 
-static HSVHue ChristmasColorWheel[] = {
+static int ChristmasColorWheel[] = {
     HUE_RED,
     HUE_ORANGE,
     HUE_YELLOW,
@@ -34,14 +34,14 @@ void ChristmasFlash::start()
 
 void ChristmasFlash::run()
 {
-    if (m_strip[m_inAction].s == 0) {
+    if (m_colors[m_inAction].s == 0) {
         m_fading = false;
-        m_colors[m_inAction] = ChristmasColorWheel[random(0, m_numColors)];
+        m_colors[m_inAction].h = ChristmasColorWheel[random(0, m_numColors)];
     }
-    else if (m_fading && m_colors[m_inAction.s > 0]) {
-        m_strip[m_inAction].s--;
+    else if (m_fading && m_colors[m_inAction].s > 0) {
+        m_colors[m_inAction].s--;
     }
-    else if (m_strip[m_inAction].s < m_brightness && !m_fading) {
+    else if (m_colors[m_inAction].s < m_brightness && !m_fading) {
         m_colors[m_inAction].s++;
     }
     else if (m_colors[m_inAction].s == m_brightness && !m_fading) {
