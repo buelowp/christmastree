@@ -13,7 +13,7 @@ Twinkles::Twinkles(CRGB *s, CRGBPalette16 pal)
 	gBackgroundColor = CRGB(16,14,4);
     strip = s;
     m_density = 5;
-    m_speed = 8;
+    m_speed = 4;
 }
 
 Twinkles::~Twinkles()

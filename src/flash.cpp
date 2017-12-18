@@ -12,11 +12,9 @@ static int ChristmasColorWheel[] = {
 };
 
 ChristmasFlash::ChristmasFlash(CRGB *strip, int count, int bright) :
-    m_strip(strip), m_numPixels(count), m_brightness(bright)
+    m_strip(strip), m_numPixels(count), m_brightness(bright), m_started(false)
 {
     m_numColors = sizeof(ChristmasColorWheel);
-    m_inAction = random(0, 20);
-    m_fading = true;
     m_colors = new CHSV[m_numColors];
 }
 
@@ -28,30 +26,41 @@ void ChristmasFlash::start()
 {
     for (int i = 0; i < m_numPixels; i++) {
         m_colors[i].h = ChristmasColorWheel[random(0, m_numColors)];
-        m_colors[i].s = m_brightness;
+        m_colors[i].v = m_brightness;
+        m_colors[i].s = 255;
     }
+    m_inAction = random(0, 20);
+    m_fading = true;
+    m_started = true;
 }
 
 void ChristmasFlash::run()
 {
-    if (m_colors[m_inAction].s == 0) {
-        m_fading = false;
-        m_colors[m_inAction].h = ChristmasColorWheel[random(0, m_numColors)];
+    if (!m_started) {
+        start();
     }
-    else if (m_fading && m_colors[m_inAction].s > 0) {
-        m_colors[m_inAction].s--;
-    }
-    else if (m_colors[m_inAction].s < m_brightness && !m_fading) {
-        m_colors[m_inAction].s++;
-    }
-    else if (m_colors[m_inAction].s == m_brightness && !m_fading) {
-        m_fading = true;
-        m_inAction = random(0, 20);
+    else {
+        if (m_colors[m_inAction].v == 0) {
+            m_fading = false;
+            m_colors[m_inAction].h = ChristmasColorWheel[random(0, m_numColors)];
+            m_colors[m_inAction].v++;
+        }
+        else if (m_fading && m_colors[m_inAction].s > 0) {
+            m_colors[m_inAction].v--;
+        }
+        else if (m_colors[m_inAction].v < m_brightness && !m_fading) {
+            m_colors[m_inAction].v++;
+        }
+        else if (m_colors[m_inAction].v == m_brightness && !m_fading) {
+            m_fading = true;
+            m_inAction = random(0, 20);
+        }
     }
 }
 
 void ChristmasFlash::end()
 {
+    m_started = false;
 }
 
 void ChristmasFlash::seeTheRainbow()

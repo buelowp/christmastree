@@ -24,6 +24,7 @@ private:
     int m_inAction;
     int m_brightness;
     bool m_fading;
+    bool m_started;
 };
 
 #endif
