@@ -4,9 +4,11 @@
 
 FASTLED_USING_NAMESPACE
 
+STARTUP(WiFi.selectAntenna(ANT_EXTERNAL));
+
 #define NUM_LEDS    20
 #define BRIGHTNESS  120
-#define APPID       19
+#define APPID       23
 
 const TProgmemRGBPalette16 Snow_p =
 {  0x404040, 0x404040, 0x404040, 0x404040,
@@ -32,6 +34,39 @@ int setProgram(String p)
     return g_program;
 }
 
+int setProgramBrightness(String b)
+{
+    int bright = b.toInt();
+
+    if (bright > 0 && bright < 255) {
+        lights.setBrightness(bright);
+    }
+
+    return bright;
+}
+
+int setProgramDensity(String d)
+{
+    int density = d.toInt();
+
+    if (density > 0 && density <= 8) {
+        twinkles.setDensity(density);
+    }
+
+    return density;
+}
+
+int setProgramSpeed(String s)
+{
+    int speed = s.toInt();
+
+    if (speed > 0 && speed <= 8) {
+        twinkles.setSpeed(speed);
+    }
+
+    return speed;
+}
+
 void setup()
 {
     delay(3000);
@@ -40,6 +75,9 @@ void setup()
     g_appid = APPID;
 
     Particle.function("setProg", setProgram);
+    Particle.function("setBright", setProgramBrightness);
+    Particle.function("setDensity", setProgramDensity);
+    Particle.function("setSpeed", setProgramSpeed);
     Particle.variable("id", g_appid);
     Particle.variable("program", g_program);
 
@@ -63,7 +101,7 @@ void loop()
         lights.run();
         lights.seeTheRainbow();
         FastLED.show();
-        delay(15);
+        delay(20);
         break;
     case 2:
         twinkles.run();

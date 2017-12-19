@@ -14,6 +14,7 @@ public:
     void start();
     void run();
     void end();
+    void setBrightness(int b) { m_brightness = b; }
     void seeTheRainbow();
 
 private:

@@ -12,8 +12,8 @@ Twinkles::Twinkles(CRGB *s, CRGBPalette16 pal)
 	gCurrentPalette = pal;
 	gBackgroundColor = CRGB(16,14,4);
     strip = s;
-    m_density = 5;
-    m_speed = 4;
+    m_density = 3;
+    m_speed = 3;
 }
 
 Twinkles::~Twinkles()
