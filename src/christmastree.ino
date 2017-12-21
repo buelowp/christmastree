@@ -4,7 +4,7 @@
 
 FASTLED_USING_NAMESPACE
 
-STARTUP(WiFi.selectAntenna(ANT_EXTERNAL));
+STARTUP(WiFi.selectAntenna(ANT_AUTO));
 
 #define NUM_LEDS    20
 #define BRIGHTNESS  120
