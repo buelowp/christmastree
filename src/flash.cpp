@@ -1,14 +1,14 @@
 #include "flash.h"
 
 static int ChristmasColorWheel[] = {
-    HUE_RED,
+    HUE_BLUE,
     HUE_ORANGE,
     HUE_YELLOW,
     HUE_GREEN,
     HUE_AQUA,
-    HUE_BLUE,
+    HUE_RED,
     HUE_PURPLE,
-    HUE_PINK
+    HUE_PINK,
 };
 
 ChristmasFlash::ChristmasFlash(CRGB *strip, int count, int bright) :

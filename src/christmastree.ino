@@ -1,3 +1,4 @@
+#pragma SPARK_NO_PREPROCESSOR
 #include <FastLED.h>
 #include "flash.h"
 #include "twinkles.h"
@@ -8,7 +9,7 @@ STARTUP(WiFi.selectAntenna(ANT_AUTO));
 
 #define NUM_LEDS    20
 #define BRIGHTNESS  120
-#define APPID       23
+#define APPID       24
 
 const TProgmemRGBPalette16 Snow_p =
 {  0x404040, 0x404040, 0x404040, 0x404040,
@@ -23,6 +24,7 @@ Twinkles twinkles(strip, Snow_p);
 
 int g_program;
 int g_appid;
+int g_state;
 
 int setProgram(String p)
 {
@@ -73,6 +75,7 @@ void setup()
 
     g_program = 1;
     g_appid = APPID;
+    g_state = true;
 
     Particle.function("setProg", setProgram);
     Particle.function("setBright", setProgramBrightness);
@@ -81,7 +84,7 @@ void setup()
     Particle.variable("id", g_appid);
     Particle.variable("program", g_program);
 
-    FastLED.addLeds<NEOPIXEL, D0>(strip, NUM_LEDS);
+    FastLED.addLeds<NEOPIXEL, D2>(strip, NUM_LEDS);
     delay(100);
     lights.start();
     lights.seeTheRainbow();
@@ -92,18 +95,25 @@ void loop()
 {
     switch (g_program) {
     case 0:
-        for (int i = 0; i < NUM_LEDS; i++) {
-            strip[i] = CRGB::Black;
+        if (g_state) {
+            for (int i = 0; i < NUM_LEDS; i++) {
+                strip[i] = CRGB::Black;
+            }
+            FastLED.show();
+            g_state = false;
         }
-        FastLED.show();
         break;
     case 1:
+        if (!g_state)
+            g_state = true;
         lights.run();
         lights.seeTheRainbow();
         FastLED.show();
         delay(20);
         break;
     case 2:
+        if (!g_state)
+            g_state = true;
         twinkles.run();
         FastLED.show();
         break;
