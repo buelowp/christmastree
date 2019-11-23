@@ -36,13 +36,21 @@ void ChristmasFlash::start()
 
 void ChristmasFlash::run()
 {
+    uint8_t lastcolor;
+    uint8_t nextcolor;
+
     if (!m_started) {
         start();
     }
     else {
         if (m_colors[m_inAction].v == 0) {
             m_fading = false;
-            m_colors[m_inAction].h = ChristmasColorWheel[random(0, m_numColors)];
+            lastcolor = m_colors[m_inAction].h;
+            nextcolor = lastcolor;
+            while (nextcolor == lastcolor)
+                nextcolor = ChristmasColorWheel[random(0, m_numColors)];
+
+            m_colors[m_inAction].h = nextcolor;
             m_colors[m_inAction].v++;
         }
         else if (m_fading && m_colors[m_inAction].s > 0) {

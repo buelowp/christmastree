@@ -9,7 +9,7 @@ STARTUP(WiFi.selectAntenna(ANT_AUTO));
 
 #define NUM_LEDS    20
 #define BRIGHTNESS  120
-#define APPID       24
+#define APPID       26
 
 const TProgmemRGBPalette16 Snow_p =
 {  0x404040, 0x404040, 0x404040, 0x404040,
