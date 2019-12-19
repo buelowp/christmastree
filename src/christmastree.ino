@@ -9,7 +9,7 @@ STARTUP(WiFi.selectAntenna(ANT_AUTO));
 
 #define NUM_LEDS    20
 #define BRIGHTNESS  120
-#define APPID       27
+#define APPID       32
 
 const TProgmemRGBPalette16 Snow_p =
 {  0x404040, 0x404040, 0x404040, 0x404040,
@@ -20,7 +20,7 @@ const TProgmemRGBPalette16 Snow_p =
 
 CRGB strip[NUM_LEDS];
 ChristmasFlash lights(strip, NUM_LEDS, BRIGHTNESS);
-Twinkles twinkles(strip, Snow_p);
+Twinkles twinkles(NUM_LEDS, strip, Snow_p);
 
 int g_program;
 int g_appid;
@@ -32,6 +32,7 @@ int setProgram(String p)
 
     if (g_program == 1 || g_program == 2) {
         EEPROM.put(0, g_program);
+        Particle.publish("EEPROM", String::format("EEPROM Updated a value to %d", g_program), PRIVATE);
     }
 
     return g_program;
@@ -72,12 +73,11 @@ int setProgramSpeed(String s)
 
 void setup()
 {
-    delay(3000);
-
     EEPROM.get(0, g_program);
-    if (g_program != 1 || g_program != 2) {
+    if (g_program == 0xffffffff) {
         g_program = 1;
         EEPROM.put(0, g_program);
+        Particle.publish("EEPROM", String::format("EEPROM Updated a value to %d", g_program), PRIVATE);
     }
     g_appid = APPID;
     g_state = true;
@@ -89,8 +89,9 @@ void setup()
     Particle.variable("id", g_appid);
     Particle.variable("program", g_program);
 
-    FastLED.addLeds<NEOPIXEL, D2>(strip, NUM_LEDS);
     delay(2000);
+
+    FastLED.addLeds<NEOPIXEL, D2>(strip, NUM_LEDS);
 }
 
 void loop()

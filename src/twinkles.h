@@ -12,11 +12,9 @@
 
 FASTLED_USING_NAMESPACE
 
-#define NUM_LEDS            20
-
 class Twinkles {
 public:
-	Twinkles(CRGB*, CRGBPalette16);
+	Twinkles(int, CRGB*, CRGBPalette16);
 	virtual ~Twinkles();
 
 	void start();

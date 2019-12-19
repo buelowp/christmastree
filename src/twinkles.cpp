@@ -7,13 +7,14 @@
 
 #include "twinkles.h"
 
-Twinkles::Twinkles(CRGB *s, CRGBPalette16 pal)
+Twinkles::Twinkles(int num, CRGB *s, CRGBPalette16 pal)
 {
 	gCurrentPalette = pal;
 	gBackgroundColor = CRGB(16,14,4);
     strip = s;
     m_density = 3;
     m_speed = 3;
+    m_numLeds = num;
 }
 
 Twinkles::~Twinkles()
@@ -57,7 +58,7 @@ void Twinkles::run()
 
 	uint8_t backgroundBrightness = gBackgroundColor.getAverageLight();
 
-    for ( uint16_t i = 0; i < NUM_LEDS; i++) {
+    for ( uint16_t i = 0; i < m_numLeds; i++) {
         PRNG16 = (uint16_t)(PRNG16 * 2053) + 1384; // next 'random' number
         uint16_t myclockoffset16= PRNG16; // use that number as clock offset
         PRNG16 = (uint16_t)(PRNG16 * 2053) + 1384; // next 'random' number
