@@ -9,7 +9,7 @@ STARTUP(WiFi.selectAntenna(ANT_AUTO));
 
 #define NUM_LEDS    20
 #define BRIGHTNESS  120
-#define APPID       26
+#define APPID       27
 
 const TProgmemRGBPalette16 Snow_p =
 {  0x404040, 0x404040, 0x404040, 0x404040,
@@ -30,8 +30,9 @@ int setProgram(String p)
 {
     g_program = p.toInt();
 
-    if (g_program != 1)
-        lights.end();
+    if (g_program == 1 || g_program == 2) {
+        EEPROM.put(0, g_program);
+    }
 
     return g_program;
 }
@@ -73,7 +74,11 @@ void setup()
 {
     delay(3000);
 
-    g_program = 1;
+    EEPROM.get(0, g_program);
+    if (g_program != 1 || g_program != 2) {
+        g_program = 1;
+        EEPROM.put(0, g_program);
+    }
     g_appid = APPID;
     g_state = true;
 
@@ -85,10 +90,7 @@ void setup()
     Particle.variable("program", g_program);
 
     FastLED.addLeds<NEOPIXEL, D2>(strip, NUM_LEDS);
-    delay(100);
-    lights.start();
-    lights.seeTheRainbow();
-    FastLED.show();
+    delay(2000);
 }
 
 void loop()
