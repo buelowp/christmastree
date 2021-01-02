@@ -22,6 +22,7 @@ public:
 	void setBackgroundColor(CRGB);
 	void setDensity(int);
 	void setSpeed(int);
+	void setNumLeds(int n) { m_numLeds = n; }
 
 private:
 	uint8_t attackDecayWave8(uint8_t);

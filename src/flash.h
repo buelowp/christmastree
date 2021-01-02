@@ -11,6 +11,7 @@ public:
     ChristmasFlash(CRGB*, int, int);
     ~ChristmasFlash();
 
+    void setNumLeds(int n) { m_numPixels = n; }
     void start();
     void run();
     void end();
